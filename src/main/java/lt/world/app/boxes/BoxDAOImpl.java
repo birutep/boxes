@@ -27,14 +27,17 @@ public class BoxDAOImpl implements BoxDAO {
 
 	@Override
 	public void updateBox(Box box) {
-		int i = 0;
+		int idToDelete = box.getId();
+		
+		int iToDelete = 0;
 		for (Box item : boxes) {
-			if (item.equals(box)) {
-				i = boxes.indexOf(item);
+			if(idToDelete == item.getId()) {
+				iToDelete = boxes.indexOf(item);
 			}
 		}
-		boxes.remove(i);
-		boxes.add(i, box);
+		
+		boxes.remove(iToDelete);
+		boxes.add(iToDelete,box);
 	}
 
 	@Override

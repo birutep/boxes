@@ -15,7 +15,7 @@
 		<h3>Update box with id ${id}</h3><br>
 		
 		<springForm:form method="POST" commandName="box" action="boxUpdate">
-			<input type="hidden" name="id" value="${id}">
+			
 			<table>
 				<tr>
 					<td>Enter new color:</td>
@@ -28,6 +28,7 @@
 					<td><springForm:errors path="size" style="color:red" /></td>
 				</tr>
 				<tr>
+					<input type="hidden" name="id" value="${id}">
 					<td colspan="3"><input type="submit" value="Upodate box information"></td>
 				</tr>
 			</table>
