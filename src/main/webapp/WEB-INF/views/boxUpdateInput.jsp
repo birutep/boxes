@@ -10,7 +10,7 @@
 	
 		<h3>Update box with id ${id}</h3><br>
 		
-		<form action="boxUpdateResult" method="post">
+		<form action="boxUpdate" method="post">
 			<input type="hidden" name="id" value="${id}">
 			Enter color: 
 			<input type="text" name="color"><br>

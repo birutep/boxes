@@ -11,15 +11,25 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- APRASOMI VISIEMS PRIEINAMI BEANSAI. KAI PASIKURI PROJEKTA, SITAS BUNA TUSCIAS -->
-	<!-- Galiu tai apsirasyti cia kaip atskirus benus, arba galiu apsirasyti virs java klases su @Component tipo anotacija. Norint, kad 
+	<!-- Galiu tai apsirasyti cia kaip atskirus beanus, arba galiu apsirasyti virs java klases su @Component tipo anotacija. Norint, kad 
 	veiktu component scanas, reikia papildomai isideti ju skanavima su tagu ir papildomomis nuorodomis prie <beans....> virsuje -->
-	
 	<!-- <bean id="boxDAO" class="lt.world.app.boxes.BoxDAOImpl">	
 	</bean> 
 		ARBA
 	-->
+	<annotation-driven />
 	<context:component-scan base-package="lt.world.app" />
 	
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+	<!-- REIKEJO TAM, KAD NUSKATYTU MANO VALIDACIJOS ERROR ZINUTES message_en.properties FAILE -->
+	<beans:bean id="messageSource"
+		class=" org.springframework.context.support.ReloadableResourceBundleMessageSource ">
+		<beans:property name="basename" value="classpath:message" />
+		<beans:property name="defaultEncoding" value="UTF-8" />
+	</beans:bean>
+	
 	<!-- CIA TURESIU IDETI INFO APIE PRISIJUNGIMA PRIE DUOMABZES -->
+	
 		
 </beans:beans>

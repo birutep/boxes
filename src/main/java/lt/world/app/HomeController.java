@@ -4,12 +4,14 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -48,7 +50,7 @@ public class HomeController {
 	}
 		
 	@RequestMapping (value="/user", method=RequestMethod.POST)
-	public String login (@Validated User user, Model model) {
+	public String login (@Valid User user, Model model) {		//CIA DAR TRUKSTA USERIUI KOKIA NORS VALIDACIJA UZDETI (PVZ KAD BUTU KOKS NORS VARDAS BE SKAICIU)
 		model.addAttribute("userName", user.getUserName());
 		return "user";
 	}	
@@ -60,21 +62,6 @@ public class HomeController {
 		return "table";
 	}	
 	
-//---------------DEZES PRIDEJIMAS--------------------------
-	@RequestMapping (value="/boxCreationInput", method=RequestMethod.GET)
-	public String boxCreationPage() {
-		return "boxCreationInput";
-	}
-	
-	@RequestMapping (value="/boxCreationResult", method=RequestMethod.POST)
-	public String createBox(@Validated Box box, Model model) {
-		boxDAO.addBox(box);
-		model.addAttribute("id", box.getId());
-		model.addAttribute("color", box.getColor());
-		model.addAttribute("size", box.getSize());
-		return "boxCreationResult";
-	}
-
 //---------------DEZES ISTRYNIMAS--------------------------
 	
 	@RequestMapping (value="/table", method=RequestMethod.POST)
@@ -82,22 +69,46 @@ public class HomeController {
 		boxDAO.deleteBox(id);
 		model.addAttribute("boxDAO", boxDAO.getAllBoxes());
 		return "table";
-		//ar cia, jei noriu, kad griztu i linka "tables"reiktu kazkoki redirecta daryti?
-		//ar cia gerai taip daryti su DELETE
+	}
+	
+//---------------DEZES PRIDEJIMAS--------------------------
+	@RequestMapping (value="/boxCreation", method=RequestMethod.GET)
+	public String boxCreationPage(Model model) {
+		model.addAttribute("box", new Box());
+		return "boxCreation";
+	}
+	
+	@RequestMapping (value="/boxCreation", method=RequestMethod.POST)
+	public String createBox(@Valid Box box, BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) {
+			return "boxCreation";
+		}
+		
+		boxDAO.addBox(box);
+		model.addAttribute("id", box.getId());
+		model.addAttribute("color", box.getColor());
+		model.addAttribute("size", box.getSize());
+		return "boxCreationResult";
 	}
 	
 
 //---------------DEZES ATNAUJINIMAS--------------------------
 	
-	@RequestMapping (value="/boxUpdateInput", method=RequestMethod.GET)
+	@RequestMapping (value="/boxUpdate", method=RequestMethod.GET)
 	public String boxUpdateInput(int id, Model model) {
+		model.addAttribute("box", new Box());			//SITAS BUTINAS< ANTRAIP NET NEPAKRAUS PUSLAPIO< NES NEZINOS, KOKIO MODELIO LAUKTI JAM
 		model.addAttribute("id", id);
-		return "boxUpdateInput";
+		return "boxUpdate";
 	}
 	
-	@RequestMapping (value="/boxUpdateResult", method=RequestMethod.POST)
-	public String boxUpdateResult(@Validated Box box, Model model) {
+	@RequestMapping (value="/boxUpdate", method=RequestMethod.POST)
+	public String boxUpdateResult(@Valid Box box, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("id", box.getId()); 
+			return "boxUpdate";
+		}
 		boxDAO.updateBox(box);
+		model.addAttribute("id", box.getId());
 		model.addAttribute("color", box.getColor());
 		model.addAttribute("size", box.getSize());
 		return "boxUpdateResult";

@@ -34,7 +34,7 @@ public class BoxDAOImpl implements BoxDAO {
 			}
 		}
 		boxes.remove(i);
-		boxes.add(box);
+		boxes.add(i, box);
 	}
 
 	@Override

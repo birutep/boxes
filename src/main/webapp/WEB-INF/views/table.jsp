@@ -7,6 +7,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Table</title>
+		
 	</head>
 	<body>
 
@@ -18,9 +19,10 @@
 			
 			<table>
 				<tr>
+					<th>ID</th>
 					<th>Color</th>
 					<th>Size</th>
-					<th>Remove</th>
+					<th colspan="3">Possible actions</th>
 				</tr>
 				<c:forEach var="box" items="${boxDAO}">
 					<tr>
@@ -31,16 +33,12 @@
 							<form action="table" method="post">
 								<input type="hidden" name="id" value="${box.id}">
 								<input type="submit" value="Delete">
-								<!-- cia niekas nepaduota ir del to netrina, neaisku,
-								ka reikia trinti-->
 							</form>
 						</td>	
 						<td>
-							<form action="boxUpdateInput" method="get">
+							<form action="boxUpdate" method="get">
 								<input type="hidden" name="id" value="${box.id}">
 								<input type="submit" value="Update">
-								<!-- perejimas i kita puslapi ir  ten updatina pagal
-								paduota id -->
 							</form>
 						</td>
 					</tr>
