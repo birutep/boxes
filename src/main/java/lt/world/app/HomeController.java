@@ -43,17 +43,7 @@ public class HomeController {
 		
 		return "home";
 	}
-	
-	@RequestMapping (value="/login", method=RequestMethod.GET)
-	public String loginPage() {
-		return "login";
-	}
-		
-	@RequestMapping (value="/user", method=RequestMethod.POST)
-	public String login (@Valid User user, Model model) {		//CIA DAR TRUKSTA USERIUI KOKIA NORS VALIDACIJA UZDETI (PVZ KAD BUTU KOKS NORS VARDAS BE SKAICIU)
-		model.addAttribute("userName", user.getUserName());
-		return "user";
-	}	
+
 	
 //--------------VISU DEZIU PARODYMAS------------------------
 	@RequestMapping (value="/table", method=RequestMethod.GET)
@@ -70,27 +60,64 @@ public class HomeController {
 		model.addAttribute("boxDAO", boxDAO.getAllBoxes());
 		return "table";
 	}
-	
-//---------------DEZES PRIDEJIMAS--------------------------
-	@RequestMapping (value="/boxCreation", method=RequestMethod.GET)
-	public String boxCreationPage(Model model) {
-		model.addAttribute("box", new Box());
-		return "boxCreation";
-	}
-	
-	@RequestMapping (value="/boxCreation", method=RequestMethod.POST)
-	public String createBox(@Valid Box box, BindingResult bindingResult, Model model) {
-		if (bindingResult.hasErrors()) {
-			return "boxCreation";
+
+//---------------DEZES ADD/UPDATE--------------------------
+		@RequestMapping (value="/addUpdateBox", method=RequestMethod.GET)
+		public String getPageForBoxCreation(Integer id, Model model) {
+			model.addAttribute("box", new Box());
+			if (id == null) {
+				model.addAttribute("pageName", "Lets create new Box");
+				model.addAttribute("id", null);
+				model.addAttribute("color", null);
+				model.addAttribute("size", null);
+				model.addAttribute("buttonValue", "Create Box");
+				return "boxAddUpdate";
+			}
+			else {
+				Box box = boxDAO.getOneById(id);
+				model.addAttribute("pageName", "Lets update existing Box");
+				model.addAttribute("id", box.getId());
+				model.addAttribute("color", box.getColor());
+				model.addAttribute("size", box.getSize());
+				model.addAttribute("buttonValue", "Update Box");
+				return "boxAddUpdate";
+			}
+			
 		}
 		
-		boxDAO.addBox(box);
-		model.addAttribute("id", box.getId());
-		model.addAttribute("color", box.getColor());
-		model.addAttribute("size", box.getSize());
-		return "boxCreationResult";
-	}
-	
+		@RequestMapping (value="/addUpdateBox", method=RequestMethod.POST)
+		public String boxCreation(String buttonValue, @Valid Box box, BindingResult bindingResult, Model model) {
+			if (bindingResult.hasErrors()) {
+				if(buttonValue.equals("Create Box")) {
+					model.addAttribute("box", new Box());
+					model.addAttribute("pageName", "Lets create new Box");
+					model.addAttribute("id", null);
+					model.addAttribute("color", null);
+					model.addAttribute("size", null);
+					model.addAttribute("buttonValue", "Create Box");
+				}
+				else {
+					model.addAttribute("pageName", "Lets update existing Box");
+					model.addAttribute("id", box.getId());
+					model.addAttribute("color", box.getColor());
+					model.addAttribute("size", box.getSize());
+					model.addAttribute("buttonValue", "Update Box");
+				}
+				return "boxAddUpdate";
+			}
+			else if (buttonValue.equals("Create Box")) {
+				System.out.println("Entring creation");
+				boxDAO.addBox(box);
+			}
+			else if (buttonValue.equals("Update Box")){
+				System.out.println("Entring update");
+				boxDAO.updateBox(box);
+			}
+			System.out.println("Returning to table view");
+			model.addAttribute("boxDAO", boxDAO.getAllBoxes());
+			return "table";						//CIA KAZKOKS GRYBAS< REIK VEL KAD MAN GRAZINTU IR I TABLE LINKUTI
+		}
+		
 
 //---------------DEZES ATNAUJINIMAS--------------------------
 	

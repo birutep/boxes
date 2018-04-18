@@ -36,7 +36,7 @@
 							</form>
 						</td>	
 						<td>
-							<form action="boxUpdate" method="get">
+							<form action="addUpdateBox" method="get">
 								<input type="hidden" name="id" value="${box.id}">
 								<input type="submit" value="Update">
 							</form>
@@ -44,6 +44,11 @@
 					</tr>
 				</c:forEach>
 			</table>
+			
+			<form action="addUpdateBox" method="get">
+				<input type="submit" value="Add new box">
+			</form>
+			
 					
 		</div>		
 </body>

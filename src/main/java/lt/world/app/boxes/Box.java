@@ -10,13 +10,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Box {
 
-	@NotNull (message="annot: ID is a required field.")
+//	@NotNull (message="annot: ID is a required field.")
 	@Min(value=1, message="annot: Cannot be 0. It is required field.")
-	private int id;
+	private Integer id;
 	
-	@NotNull (message="annot: Size is a required field.")
+//	@NotNull (message="annot: Size is a required field.")
 	@Min(value=1, message="annot: Cannot be smaller than 1") @Max(value=500, message="Cannot be bigger than 500")
-	private double size;
+	private Double size;
 	
 	@NotEmpty (message="annot: Color is a required field.")
 	@Size(min=3, max=15, message="annot: Must be between 3 to 15 symbols")
@@ -31,12 +31,19 @@ public class Box {
 	
 	public Box() {}
 
+	public Integer getId() {
+		return id;
+	}
 
-	public double getSize() {
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Double getSize() {
 		return size;
 	}
 
-	public void setSize(double size) {
+	public void setSize(Double size) {
 		this.size = size;
 	}
 
@@ -48,51 +55,8 @@ public class Box {
 		this.color = color;
 	}
 
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return "Box [size=" + size + ", color=" + color + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((color == null) ? 0 : color.hashCode());
-		result = prime * result + id;
-		long temp;
-		temp = Double.doubleToLongBits(size);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Box other = (Box) obj;
-		if (color == null) {
-			if (other.color != null)
-				return false;
-		} else if (!color.equals(other.color))
-			return false;
-		if (id != other.id)
-			return false;
-		if (Double.doubleToLongBits(size) != Double.doubleToLongBits(other.size))
-			return false;
-		return true;
-	}
+	
 
 	
 

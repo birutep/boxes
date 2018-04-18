@@ -17,7 +17,8 @@ public class BoxDAOImpl implements BoxDAO {
 	
 	@Override
 	public void addBox(Box box) {
-		boxes.add(box);		
+		boxes.add(box);	
+		System.out.println("Added new box to the array.");
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class BoxDAOImpl implements BoxDAO {
 	}
 
 	@Override
-	public void deleteBox (int id) {
+	public void deleteBox (Integer id) {
 		int i = 0;
 		
 		for (Box item: boxes) {
@@ -58,6 +59,14 @@ public class BoxDAOImpl implements BoxDAO {
 		}
 	}
 	
-	
+	public Box getOneById(Integer id) {
+		Box box = new Box();
+		for (Box item : boxes) {
+			if(id == item.getId()) {
+				box = item;
+			}
+		}
+		return box;
+	}
 		
 }
