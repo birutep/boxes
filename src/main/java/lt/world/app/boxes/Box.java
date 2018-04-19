@@ -21,7 +21,7 @@ public class Box {
 	@Pattern(regexp = "^([a-zA-Z]+\\s)*[a-zA-Z]+$", message="annot: Can contain just letters and be of several words.")
 	private String color;	
 	
-	public Box (int id, double size, String color) {
+	public Box (double size, String color) {
 		this.id=BoxId.getNext();
 		this.size=size;
 		this.color=color;
@@ -31,6 +31,10 @@ public class Box {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id=id;
 	}
 
 	public Double getSize() {
@@ -47,6 +51,11 @@ public class Box {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	@Override
+	public String toString() {
+		return "Box [id=" + id + ", size=" + size + ", color=" + color + "]";
 	}
 
 

@@ -11,8 +11,6 @@
 	</head>
 	<body>
 
-		
-
 		<div align="center">
 		
 			<h3>Table of boxes in array</h3>
@@ -24,7 +22,7 @@
 					<th>Size</th>
 					<th colspan="3">Possible actions</th>
 				</tr>
-				<c:forEach var="box" items="${boxDAO}">
+				<c:forEach var="box" items="${boxes}">
 					<tr>
 						<td><c:out value="${box.id}"/></td>	
 						<td><c:out value="${box.color}"/></td>	

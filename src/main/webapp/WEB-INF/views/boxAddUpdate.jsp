@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>New box</title>
+		<title>Manage box information</title>
 		<link rel="stylesheet" type="text/css" href="./resources/css/style.css">
 	</head>
 	
@@ -18,9 +18,7 @@
 		<springForm:form action="addUpdateBox" method="POST" commandName="box">
 			<table>
 				<tr>
-					<td>Enter ID:</td>
-					<td><springForm:input path="id" value="${id}"/></td>
-					<td><springForm:errors path="id" cssClass="error" /></td>
+					<td><springForm:hidden path="id" value="${id}"/></td>
 				</tr>
 				<tr>
 					<td>Enter color:</td>
@@ -33,7 +31,6 @@
 					<td><springForm:errors path="size" cssClass="error" /></td>
 				</tr>
 				<tr>
-					<input type="hidden" name="buttonValue" value="${buttonValue}">
 					<td colspan="3"><input type="submit" value="${buttonValue}"></td>
 				</tr>
 			</table>

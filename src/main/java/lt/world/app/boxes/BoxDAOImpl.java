@@ -24,17 +24,17 @@ public class BoxDAOImpl implements BoxDAO {
 
 	@Override
 	public void updateBox(Box box) {
-		Long idToDelete = box.getId();
+		int iToUpdate = 0;
 		
-		int iToDelete = 0;
 		for (Box item : boxes) {
-			if(idToDelete == item.getId()) {
-				iToDelete = boxes.indexOf(item);
+			if(box.getId() == item.getId()) {
+				iToUpdate = boxes.indexOf(item);
 			}
 		}
 		
-		boxes.remove(iToDelete);
-		boxes.add(iToDelete,box);
+		boxes.get(iToUpdate).setColor(box.getColor());
+		boxes.get(iToUpdate).setSize(box.getSize());
+		System.out.println("Update completed");
 	}
 
 	@Override

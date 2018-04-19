@@ -1,13 +1,7 @@
 package lt.world.app;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import lt.world.app.boxes.Box;
 import lt.world.app.boxes.BoxDAO;
-import lt.world.app.users.User;
 
-/**
- * Handles requests for the application home page.
- */
+
 @Controller
 public class HomeController {
 	
@@ -32,7 +23,7 @@ public class HomeController {
 //--------------VISU DEZIU PARODYMAS------------------------
 	@RequestMapping (value="/table", method=RequestMethod.GET)
 	public String showTable(Model model) {
-		model.addAttribute("boxDAO", boxDAO.getAllBoxes());
+		model.addAttribute("boxes", boxDAO.getAllBoxes());
 		return "table";
 	}	
 	
@@ -42,16 +33,15 @@ public class HomeController {
 	public String deleteBox(Long id, Model model) {
 		boxDAO.deleteBox(id);
 		model.addAttribute("boxDAO", boxDAO.getAllBoxes());
-		return "table";
+		return "redirect:table";
 	}
 
 //---------------DEZES ADD/UPDATE--------------------------
 		@RequestMapping (value="/addUpdateBox", method=RequestMethod.GET)
-		public String getPageForBoxCreation(Long id, Model model) {
+		public String getPageForAddUpdateBox(Long id, Model model) {
 			model.addAttribute("box", new Box());
 			if (id == null) {
 				model.addAttribute("pageName", "Lets create new Box");
-				model.addAttribute("id", null);
 				model.addAttribute("color", null);
 				model.addAttribute("size", null);
 				model.addAttribute("buttonValue", "Create Box");
@@ -59,8 +49,9 @@ public class HomeController {
 			}
 			else {
 				Box box = boxDAO.getOneById(id);
-				model.addAttribute("pageName", "Lets update existing Box");
-				model.addAttribute("id", box.getId());
+				String pageName = "Lets update existing Box " + box.getId();
+				model.addAttribute("pageName", pageName);
+				model.addAttribute("id", id);
 				model.addAttribute("color", box.getColor());
 				model.addAttribute("size", box.getSize());
 				model.addAttribute("buttonValue", "Update Box");
@@ -70,22 +61,24 @@ public class HomeController {
 		}
 		
 		@RequestMapping (value="/addUpdateBox", method=RequestMethod.POST)
-		public String boxCreation(String buttonValue, @Valid Box box, BindingResult bindingResult, Model model) {
+		public String addUpdateBox(@Valid Box box, BindingResult bindingResult, Model model) {
+			
 			System.out.println("Entering controller method");
-			System.out.println("utton value: " + buttonValue);
+			System.out.println("Incoming box:" + box);
+			
 			if (bindingResult.hasErrors()) {
-				if(buttonValue.equals("Create Box")) {
+				if(box.getId() == null) {
 					System.out.println("Controller:boxCreation: errors in box creation");
-					model.addAttribute("box", new Box());		//SITAS BUTINAS< ANTRAIP NET NEPAKRAUS PUSLAPIO< NES NEZINOS, KOKIO MODELIO LAUKTI JAM
 					model.addAttribute("pageName", "Lets create new Box");
-					model.addAttribute("id", null);
-					model.addAttribute("color", null);
-					model.addAttribute("size", null);
+					model.addAttribute("id", box.getId());
+					model.addAttribute("color", box.getColor());
+					model.addAttribute("size", box.getSize());
 					model.addAttribute("buttonValue", "Create Box");
 				}
 				else {
 					System.out.println("Controller:boxCreation: errors in box update");
-					model.addAttribute("pageName", "Lets update existing Box");
+					String pageName = "Lets update existing Box (id " + box.getId() + ")";
+					model.addAttribute("pageName", pageName);
 					model.addAttribute("id", box.getId());
 					model.addAttribute("color", box.getColor());
 					model.addAttribute("size", box.getSize());
@@ -93,20 +86,19 @@ public class HomeController {
 				}
 				return "boxAddUpdate";
 			}
-			else if (buttonValue.equals("Create Box")) {
+			else if (box.getId() == null) {
 				System.out.println("Controller:boxCreation: NO errors, entering creation");
-				boxDAO.addBox(box);
+				Box newBox = new Box(box.getSize(),box.getColor());
+				boxDAO.addBox(newBox);
 			}
-			else if (buttonValue.equals("Update Box")){
+			else if (box.getId() != null){
 				System.out.println("Controller:boxCreation: NO errors, entering update");
 				System.out.println("Entring update");
 				boxDAO.updateBox(box);
 			}
 			System.out.println("Controller:boxCreation: Returning to table view");
 			model.addAttribute("boxDAO", boxDAO.getAllBoxes());
-			return "table";						//CIA KAZKOKS GRYBAS< REIK VEL KAD MAN GRAZINTU IR I TABLE LINKUTI
+			return "redirect:table";					
 		}
-
-	
 }
 
