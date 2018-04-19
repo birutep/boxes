@@ -14,10 +14,10 @@ public interface BoxDAO {
 	public void updateBox (Box box);
 	
 	//Delete
-	public void deleteBox(Integer i);
+	public void deleteBox(Long id);
 	
 	//print array
 	public void printArray();
 	
-	public Box getOneById(Integer id);
+	public Box getOneById(Long id);
 }

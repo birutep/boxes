@@ -10,11 +10,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Box {
 
-//	@NotNull (message="annot: ID is a required field.")
-	@Min(value=1, message="annot: Cannot be 0. It is required field.")
-	private Integer id;
+	private Long id;
 	
-//	@NotNull (message="annot: Size is a required field.")
+	@NotNull (message="annot: Size is a required field.")
 	@Min(value=1, message="annot: Cannot be smaller than 1") @Max(value=500, message="Cannot be bigger than 500")
 	private Double size;
 	
@@ -24,19 +22,15 @@ public class Box {
 	private String color;	
 	
 	public Box (int id, double size, String color) {
-		this.id=id;
+		this.id=BoxId.getNext();
 		this.size=size;
 		this.color=color;
 	}
 	
 	public Box() {}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public Double getSize() {

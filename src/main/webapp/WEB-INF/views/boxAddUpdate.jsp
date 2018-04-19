@@ -8,7 +8,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>New box</title>
-		<link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+		<link rel="stylesheet" type="text/css" href="./resources/css/style.css">
 	</head>
 	
 	<body>
@@ -20,23 +20,24 @@
 				<tr>
 					<td>Enter ID:</td>
 					<td><springForm:input path="id" value="${id}"/></td>
-					<td><springForm:errors path="id" style="color:red" /></td>
+					<td><springForm:errors path="id" cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td>Enter color:</td>
 					<td><springForm:input path="color" value="${color}"/></td>
-					<td><springForm:errors path="color" style="color:red" /></td>
+					<td><springForm:errors path="color" cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td>Enter size:</td>
 					<td><springForm:input path="size" value="${size}"/></td>
-					<td><springForm:errors path="size" style="color:red" /></td>
+					<td><springForm:errors path="size" cssClass="error" /></td>
 				</tr>
 				<tr>
+					<input type="hidden" name="buttonValue" value="${buttonValue}">
 					<td colspan="3"><input type="submit" value="${buttonValue}"></td>
 				</tr>
 			</table>
-		</springForm:form>
+		</springForm:form>	
 		
 	</body>
 </html>

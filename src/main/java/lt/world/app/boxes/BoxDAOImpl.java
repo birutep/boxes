@@ -9,11 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BoxDAOImpl implements BoxDAO {
 
-	private List<Box> boxes = new ArrayList<Box>(Arrays.asList(
-			new Box(1, 1.5, "red"),
-			new Box(2, 2.6, "green"),
-			new Box(3, 9.3, "blue"))
-			);
+	private List<Box> boxes = new ArrayList<Box>();
 	
 	@Override
 	public void addBox(Box box) {
@@ -28,7 +24,7 @@ public class BoxDAOImpl implements BoxDAO {
 
 	@Override
 	public void updateBox(Box box) {
-		int idToDelete = box.getId();
+		Long idToDelete = box.getId();
 		
 		int iToDelete = 0;
 		for (Box item : boxes) {
@@ -42,7 +38,7 @@ public class BoxDAOImpl implements BoxDAO {
 	}
 
 	@Override
-	public void deleteBox (Integer id) {
+	public void deleteBox (Long id) {
 		int i = 0;
 		
 		for (Box item: boxes) {
@@ -59,7 +55,7 @@ public class BoxDAOImpl implements BoxDAO {
 		}
 	}
 	
-	public Box getOneById(Integer id) {
+	public Box getOneById(Long id) {
 		Box box = new Box();
 		for (Box item : boxes) {
 			if(id == item.getId()) {
