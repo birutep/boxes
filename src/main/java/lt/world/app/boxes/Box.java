@@ -13,7 +13,7 @@ public class Box {
 	private Long id;
 	
 	@NotNull (message="annot: Size is a required field.")
-	@Min(value=1, message="annot: Cannot be smaller than 1") @Max(value=500, message="Cannot be bigger than 500")
+	@Min(value=1, message="annot: Cannot be smaller than 1") @Max(value=500, message="annot:Cannot be bigger than 500")
 	private Double size;
 	
 	@NotEmpty (message="annot: Color is a required field.")

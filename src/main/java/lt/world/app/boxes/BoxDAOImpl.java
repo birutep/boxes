@@ -9,11 +9,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BoxDAOImpl implements BoxDAO {
 
-	private List<Box> boxes = new ArrayList<Box>();
+	private List<Box> boxes = new ArrayList<Box>(Arrays.asList(
+			new Box(2,"red"))
+			);
 	
 	@Override
 	public void addBox(Box box) {
-		boxes.add(box);	
+		boxes.add(new Box (box.getSize(), box.getColor()));	
 		System.out.println("Added new box to the array.");
 	}
 
