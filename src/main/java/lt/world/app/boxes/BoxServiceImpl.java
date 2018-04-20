@@ -14,27 +14,27 @@ public class BoxServiceImpl implements BoxService{
 	
 	@Override
 	public void addBox(Box box) {
-		this.boxDAO.addBox(box);
+		this.boxDAO.save(box);
 	}
 
 	@Override
 	public void updateBox(Box box) {
-		this.boxDAO.updateBox(box);
+		this.boxDAO.update(box);
 	}
 
 	@Override
 	public List<Box> listBox() {
-		return this.boxDAO.getAllBoxes();
+		return this.boxDAO.getAll();
 	}
 
 	@Override
 	public Box getBoxById(Long id) {
-		return this.boxDAO.getOneById(id);
+		return this.boxDAO.getById(id);
 	}
 
 	@Override
 	public void removeBox(Long id) {
-		this.boxDAO.deleteBox(id);
+		this.boxDAO.deleteById(id);
 		
 	}
 

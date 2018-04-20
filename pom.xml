@@ -39,6 +39,21 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		
+		<!-- DB: MySQL related dependency -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.11</version>
+		</dependency>
+		
+		<!-- DB: JDBC connection -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<!-- BISKI CIA GALI BUTI PROBLEMU, NES MANO SPRING VERSIJA NAUDOJAMA YRA SENESNE -->
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
 		<!-- Validation using annotations -->
 		<dependency>
 			<groupId>javax.validation</groupId>
