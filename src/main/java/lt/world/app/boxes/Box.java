@@ -12,13 +12,13 @@ public class Box {
 
 	private Long id;
 	
-	@NotNull (message="annot: Size is a required field.")
-	@Min(value=1, message="annot: Cannot be smaller than 1") @Max(value=500, message="annot:Cannot be bigger than 500")
+	@NotNull
+	@Min(value=1) @Max(value=500)
 	private Double size;
 	
-	@NotEmpty (message="annot: Color is a required field.")
-	@Size(min=3, max=15, message="annot: Must be between 3 to 15 symbols")
-	@Pattern(regexp = "^([a-zA-Z]+\\s)*[a-zA-Z]+$", message="annot: Can contain just letters and be of several words.")
+	@NotEmpty
+	@Size(min=3, max=15)
+	@Pattern(regexp = "^([a-zA-Z]+\\s)*[a-zA-Z]+$")
 	private String color;	
 	
 	public Box (double size, String color) {
@@ -58,13 +58,4 @@ public class Box {
 		return "Box [id=" + id + ", size=" + size + ", color=" + color + "]";
 	}
 
-
-	
-
-	
-
-	
-	
-	
-	
 }

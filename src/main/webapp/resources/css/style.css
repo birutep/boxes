@@ -3,10 +3,11 @@ body {
 }
 
 
-h3 {
+h1, h3 {
 	color: blue;		
 }
 
 .error{
 	color: red;
+	font-size:0.8em;
 }
