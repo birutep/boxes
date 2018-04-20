@@ -46,6 +46,7 @@ public class BoxDAOImpl implements BoxDAO {
 			}
 		}
 		boxes.remove(i);
+		System.out.println("Box deleted");
 	}
 	
 	public void printArray() {

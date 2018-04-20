@@ -21,7 +21,7 @@ public class HomeController {
 	@Autowired
 	private BoxService boxService;
 	
-
+	//----------------------GET ALL------------------------------
 	@RequestMapping(value = "/boxes", method = RequestMethod.GET)
 	public String listBox(Model model) {
 		model.addAttribute("box", new Box());
@@ -29,7 +29,7 @@ public class HomeController {
 		return "boxes";
 	}
 	
-	//For add and update box both
+	//------------------BOX ADD UPDATE----------------------------
 	@RequestMapping(value= "/box/add", method = RequestMethod.POST)
 	public String addBox(@ModelAttribute("box") @Valid Box box, BindingResult bindingResult, Model model){
 		
@@ -37,9 +37,6 @@ public class HomeController {
 			model.addAttribute("listBoxes", this.boxService.listBox()); 
 			return "boxes";
 		}
-		
-//		model.addAttribute("box", box);
-//		model.addAttribute("listBoxes", this.boxService.listBox());
 		
 			if(box.getId() == null){
 				System.out.println("Controller: add NEW");
@@ -54,6 +51,7 @@ public class HomeController {
 		
 	}
 	
+	//------------------DELETE----------------------------
 	@RequestMapping("/remove/{id}")
     public String removeBox(@PathVariable("id") Long id){
 		
@@ -61,6 +59,7 @@ public class HomeController {
         return "redirect:/boxes";
     }
  
+	//------------------EDIT------------------------------
     @RequestMapping("/edit/{id}")
     public String editBox(@PathVariable("id") Long id, Model model){
         model.addAttribute("box", this.boxService.getBoxById(id));
