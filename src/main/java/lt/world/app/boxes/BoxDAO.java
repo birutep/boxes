@@ -15,20 +15,4 @@ public interface BoxDAO {
 		//Get All
 		public List<Box> getAll();
 		
-//	//Create
-//	public void addBox(Box box);
-//	
-//	//Read
-//	public List<Box> getAllBoxes();
-//	
-//	//Update
-//	public void updateBox (Box box);
-//	
-//	//Delete
-//	public void deleteBox(Long id);
-//	
-//	//print array
-//	public void printArray();
-//	
-//	public Box getOneById(Long id);
 }

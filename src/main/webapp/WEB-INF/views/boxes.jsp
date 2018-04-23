@@ -21,7 +21,7 @@
 
 	<c:url var="addAction" value="/box/add" ></c:url>
 
-	<form:form action="${addAction}" commandName="box">
+	<form:form action="${addAction}" modelAttribute="box">
 	<table>
 		
 		<c:if test="${!empty box.id}">

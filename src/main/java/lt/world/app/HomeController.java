@@ -1,5 +1,7 @@
 package lt.world.app;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,40 +23,39 @@ public class HomeController {
 	@Autowired
 	private BoxService boxService;
 	
+	//----------------------MODEL ATTRIBUTES---------------------
+	@ModelAttribute("listBoxes")
+	public List<Box> allBoxes(){
+		return this.boxService.listBox();
+	}
+	
 	//----------------------GET ALL------------------------------
 	@RequestMapping(value = "/boxes", method = RequestMethod.GET)
 	public String listBox(Model model) {
 		model.addAttribute("box", new Box());
-		model.addAttribute("listBoxes", this.boxService.listBox());
 		return "boxes";
 	}
 	
 	//------------------BOX ADD UPDATE----------------------------
 	@RequestMapping(value= "/box/add", method = RequestMethod.POST)
 	public String addBox(@ModelAttribute("box") @Valid Box box, BindingResult bindingResult, Model model){
-		
 		if(bindingResult.hasErrors()) {
-			model.addAttribute("listBoxes", this.boxService.listBox()); 
 			return "boxes";
 		}
 		
-			if(box.getId() == null){
-				System.out.println("Controller: add NEW");
-				//new box, add it
-				this.boxService.addBox(box);
-			}else{
-				//existing box, call update
-				this.boxService.updateBox(box);
-			}
-		
+		if(box.getId() == null){
+			//new box, add it
+			this.boxService.addBox(box);
+		}else{
+			//existing box, call update
+			this.boxService.updateBox(box);
+		}
 		return "redirect:/boxes";
-		
 	}
 	
 	//------------------DELETE----------------------------
 	@RequestMapping("/remove/{id}")
     public String removeBox(@PathVariable("id") Long id){
-		
         this.boxService.removeBox(id);
         return "redirect:/boxes";
     }
@@ -62,8 +63,7 @@ public class HomeController {
 	//------------------EDIT------------------------------
     @RequestMapping("/edit/{id}")
     public String editBox(@PathVariable("id") Long id, Model model){
-        model.addAttribute("box", this.boxService.getBoxById(id));
-        model.addAttribute("listBoxes", this.boxService.listBox());
+    	model.addAttribute("box", this.boxService.getBoxById(id));
         return "boxes";
     }
 }
