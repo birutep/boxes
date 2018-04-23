@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+
+
+  <Resource name="jdbc/testapp" 
+  			auth="Container" 
+  			type="javax.sql.DataSource"
+            maxActive="50" maxIdle="30" maxWait="10000"
+            username="root" password="rootpass1" 
+            driverClassName="com.mysql.cj.jdbc.Driver"
+            url="jdbc:mysql://localhost:3306/testapp"/>
+                    <!-- jdbc:mysql://localhost:3306/testapp?useSSL=false -->
+                     <!-- driverClassName="com.mysql.jdbc.Driver" -->
+
+</Context>

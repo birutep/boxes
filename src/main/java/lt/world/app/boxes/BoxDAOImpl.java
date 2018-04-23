@@ -3,6 +3,12 @@ package lt.world.app.boxes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,6 +20,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BoxDAOImpl implements BoxDAO {
 
+//	1 VARIANTAS
 //	private DataSource dataSource;
 //
 //	public void setDataSource(DataSource dataSource) {
@@ -21,18 +28,23 @@ public class BoxDAOImpl implements BoxDAO {
 //	}
 
 	
-	public Connection getConnection() throws SQLException, ClassNotFoundException {
-
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		
-		Connection conn = null;
-	    Properties connectionProps = new Properties();
-	    connectionProps.put("user", "root");
-	    connectionProps.put("password", "rootpass1");
-	    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/testapp?useSSL=false", connectionProps);
-	    return conn;
-	}
+//	2 VARIANTAS
+//	public Connection getConnection() throws SQLException, ClassNotFoundException {
+//
+//		Class.forName("com.mysql.cj.jdbc.Driver");
+//		
+//		Connection conn = null;
+//	    Properties connectionProps = new Properties();
+//	    connectionProps.put("user", "root");
+//	    connectionProps.put("password", "rootpass1");
+//	    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/testapp?useSSL=false", connectionProps);
+//	    return conn;
+//	}
 	
+	
+//	3 VARIANTAS
+//	@Resource(name="jdbc/testapp")
+	private DataSource ds;
 	
 	
 	@Override
@@ -43,7 +55,8 @@ public class BoxDAOImpl implements BoxDAO {
 		PreparedStatement ps = null;
 		try{
 //			con = dataSource.getConnection();
-			con=getConnection();
+//			con=getConnection();
+			con=ds.getConnection();
 			
 			ps = con.prepareStatement(query);
 			ps.setString(1, box.getColor());
@@ -73,7 +86,8 @@ public class BoxDAOImpl implements BoxDAO {
 		ResultSet rs = null;
 		try{
 //			con = dataSource.getConnection();
-			con=getConnection();
+//			con=getConnection();
+			con=ds.getConnection();
 			
 			ps = con.prepareStatement(query);
 			ps.setLong(1, id);
@@ -108,7 +122,9 @@ public class BoxDAOImpl implements BoxDAO {
 		PreparedStatement ps = null;
 		try{
 //			con = dataSource.getConnection();
-			con=getConnection();
+//			con=getConnection();
+			con=ds.getConnection();
+			
 			ps = con.prepareStatement(query);
 			ps.setString(1, box.getColor());
 			ps.setDouble(2, box.getSize());
@@ -137,7 +153,9 @@ public class BoxDAOImpl implements BoxDAO {
 		PreparedStatement ps = null;
 		try{
 //			con = dataSource.getConnection();
-			con=getConnection();
+//			con=getConnection();
+			con=ds.getConnection();
+			
 			ps = con.prepareStatement(query);
 			ps.setLong(1, id);
 			int out = ps.executeUpdate();
@@ -166,7 +184,13 @@ public class BoxDAOImpl implements BoxDAO {
 		ResultSet rs = null;
 		try{
 //			con = dataSource.getConnection();
-			con=getConnection();
+//			con=getConnection();
+			Context ctx = new InitialContext();
+			ds = (DataSource)ctx.lookup("java:comp/env/jdbc/testapp");
+			con=ds.getConnection();
+			
+			
+			
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
 			while(rs.next()){
