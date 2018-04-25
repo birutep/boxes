@@ -18,10 +18,11 @@
 		ARBA
 	-->
 	<annotation-driven />
-	<context:component-scan base-package="lt.world.app" />
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
+	
+	
 	<!-- REIKEJO TAM, KAD NUSKATYTU MANO VALIDACIJOS ERROR ZINUTES message_en.properties FAILE -->
 	<beans:bean id="messageSource"
 		class=" org.springframework.context.support.ReloadableResourceBundleMessageSource ">
@@ -29,7 +30,21 @@
 		<beans:property name="defaultEncoding" value="UTF-8" />
 	</beans:bean>
 	
-	<!-- CIA TURESIU IDETI INFO APIE PRISIJUNGIMA PRIE DUOMABZES -->
 	
+	<!-- PRISIJUNGIMAS PRIE DUOMBAZES -->
+	<!-- Create DataSource Bean -->
+	<beans:bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    	<beans:property name="jndiName" value="java:comp/env/jdbc/MyLocalDB"/>
+	</beans:bean>
+	 		<!-- DAr vienas budas aprasyti prisijungima prie JNDI -->
+	 		<!-- using JEE namespace for lookup -->
+			<!-- 
+	 		<jee:jndi-lookup id="dbDataSource" jndi-name="jdbc/MyLocalDB"
+   				expected-type="javax.sql.DataSource" />
+	  		-->
+	
+	
+	
+	<context:component-scan base-package="lt.world.app" />
 		
 </beans:beans>

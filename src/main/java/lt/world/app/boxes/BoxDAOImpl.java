@@ -15,37 +15,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class BoxDAOImpl implements BoxDAO {
-
-//	1 VARIANTAS
-//	private DataSource dataSource;
-//
-//	public void setDataSource(DataSource dataSource) {
-//		this.dataSource = dataSource;
-//	}
-
-	
-//	2 VARIANTAS
-//	public Connection getConnection() throws SQLException, ClassNotFoundException {
-//
-//		Class.forName("com.mysql.cj.jdbc.Driver");
-//		
-//		Connection conn = null;
-//	    Properties connectionProps = new Properties();
-//	    connectionProps.put("user", "root");
-//	    connectionProps.put("password", "rootpass1");
-//	    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/testapp?useSSL=false", connectionProps);
-//	    return conn;
-//	}
 	
 	
-//	3 VARIANTAS
-//	@Resource(name="jdbc/testapp")
-	private DataSource ds;
-	
+	@Autowired
+	@Qualifier("dbDataSource")
+	private DataSource dataSource;
 	
 	@Override
 	public void save(Box box) {
@@ -56,7 +36,7 @@ public class BoxDAOImpl implements BoxDAO {
 		try{
 //			con = dataSource.getConnection();
 //			con=getConnection();
-			con=ds.getConnection();
+			con=dataSource.getConnection();
 			
 			ps = con.prepareStatement(query);
 			ps.setString(1, box.getColor());
@@ -85,10 +65,7 @@ public class BoxDAOImpl implements BoxDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
-//			con = dataSource.getConnection();
-//			con=getConnection();
-			con=ds.getConnection();
-			
+			con=dataSource.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setLong(1, id);
 			rs = ps.executeQuery();
@@ -121,10 +98,7 @@ public class BoxDAOImpl implements BoxDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		try{
-//			con = dataSource.getConnection();
-//			con=getConnection();
-			con=ds.getConnection();
-			
+			con=dataSource.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setString(1, box.getColor());
 			ps.setDouble(2, box.getSize());
@@ -152,10 +126,7 @@ public class BoxDAOImpl implements BoxDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		try{
-//			con = dataSource.getConnection();
-//			con=getConnection();
-			con=ds.getConnection();
-			
+			con=dataSource.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setLong(1, id);
 			int out = ps.executeUpdate();
@@ -182,15 +153,8 @@ public class BoxDAOImpl implements BoxDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		try{
-//			con = dataSource.getConnection();
-//			con=getConnection();
-			Context ctx = new InitialContext();
-			ds = (DataSource)ctx.lookup("java:comp/env/jdbc/testapp");
-			con=ds.getConnection();
-			
-			
-			
+		try{			
+			con=dataSource.getConnection();
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
 			while(rs.next()){
